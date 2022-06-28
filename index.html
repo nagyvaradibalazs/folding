@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  	<link rel="stylesheet" href="style.css">
+</head>
+
+
+<body>	
+	<input type="number" id="height" placeholder="Height" style="width: 60px">
+	<input type="number" id="width" placeholder="Width" style="width: 50px">
+	<input type="button" id="submit" value="Submit">
+	
+	<canvas id="draw" width="100" height="450"></canvas>
+	
+	<div id="lines">
+
+		<input type="button" id="add" value="Add Line">
+		<input type="button" id="update" value="Update">
+	</div>
+	
+	<canvas id="profile" width="400" height="400"></canvas>
+	
+	<input type="number" id="repeats" placeholder="Repeats" value = "1" style="width: 50px">
+	<input type="button" id="makeTessellation" value="Make Tessellation">
+	
+	<svg id="svg" width="800" height="800" xmlns="http://www.w3.org/2000/svg"></svg>
+	
+	<a id="download" download="tessellation.svg"><input type="button" value="Download Tessellation"></a>
+	
+	<style>
+		
+	</style>
+	
+	
+	<script type="module" src="scripts\script.js"></script>
+</body>
+
+</html>

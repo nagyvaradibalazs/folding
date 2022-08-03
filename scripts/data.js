@@ -1,5 +1,6 @@
 //the dataset containing the rectangle and lines
 var data = [undefined, []];
+var segments = [];
 
 //function to retrieve the dataset
 const getData = () => {
@@ -20,4 +21,16 @@ const updateData = (newData, pos = -1) => {
     data.push(lines);
 };
 
-export { getData, updateData };
+const getSegments = () => {
+    return segments;
+};
+
+const updateSegments = (newSegments) => {
+    segments = [];
+
+    for(var i = 0; i < newSegments.length; i++) {
+        segments.push(newSegments[i]);
+    }
+}
+
+export { getData, updateData, getSegments, updateSegments };

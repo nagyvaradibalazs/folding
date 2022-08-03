@@ -1,3 +1,106 @@
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	color: black;
+	background: white;
+	font-family: 'Montserrat', sans-serif;
+	font-size: 20px;
+	font-weight: 500;
+	letter-spacing: 1px;
+}
+
 #draw, #profile {
+	background-color: white;
+}
+
+#curve {
 	background-color: grey;
+}
+
+#container {
+	width: 1800px;
+	height: 900px;
+
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+
+	margin: auto;
+	margin-top: 20px;
+}
+
+#left {
+	display: flex;
+}
+
+#right {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+#instructions {
+	border-style: solid;
+	margin: 5px;
+	border-radius: 10px;
+	padding: 5px;
+
+	background-color: rgb(226, 226, 226);
+	width: 300px;
+}
+
+#inputs {
+	border-style: solid;
+	margin: 5px;
+	border-radius: 10px;
+	padding: 5px;
+
+	background-color: rgb(226, 226, 226);
+	width: 300px;
+}
+
+#main {
+	border-style: solid;
+	margin: 5px;
+	border-radius: 10px;
+	padding: 5px;
+
+	width: 300px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#top {
+	display: flex;
+	align-items: center;
+}
+
+#profileCurve {
+	border-style: solid;
+	margin: 5px;
+	border-radius: 10px;
+	padding: 5px;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+input {
+	height: 30px;
+	padding: 5px;
+	margin-right: 5px;
+}
+
+#tessellation {
+	border-style: solid;
+	margin: 5px;
+	border-radius: 10px;
+	padding: 5px;
+	background-color: rgb(226, 226, 226);
 }

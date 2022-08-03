@@ -2,39 +2,63 @@
 <html lang="en">
 
 <head>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-  	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="style.css">
 </head>
 
+<script type="module" src="scripts\script.js"></script>
 
-<body>	
-	<input type="number" id="height" placeholder="Height" style="width: 60px">
-	<input type="number" id="width" placeholder="Width" style="width: 50px">
-	<input type="button" id="submit" value="Submit">
-	
-	<canvas id="draw" width="100" height="450"></canvas>
-	
-	<div id="lines">
+<body>
+	<div id="container">
+		<div id="left">
+			<div id="instructions">
+				<p>Instructions:</p>
+				<br>
+				<p>This program can be used to define tessellations of simple origami designs and to visualize its characteristics.</p>
+				<br>
+				<p>1. You can specify the dimensions of the strip on the left, followed by the alignment of the lines. You can change the colors of each segment by clicking on them, or by using the built-in configurations.</p>
+				<br>
+				<p>2. The profile of the folded state is displayed on the very right. It is carachterized and approximated by the red curve in the middle.</p>
+				<br>
+				<p>3. You can create a tessellation from the strip you defined by giving the amount of strip repeats Once ready, you can download the SVG and open it in the simulation.</p>
+			</div>
 
-		<input type="button" id="add" value="Add Line">
-		<input type="button" id="update" value="Update">
+			<div id="inputs">
+				<p>Dimensions of the strip:</p>
+				<input type="number" id="height" placeholder="Height (mm)" style="width: 100px">
+				<input type="number" id="width" placeholder="Width (mm)" style="width: 100px">
+				<input type="button" id="submit" value="Create">
+
+				<p style="margin-top: 20px; margin-bottom: 10px;">Lines:</p>
+
+				<div id="lines">
+					<input type="button" id="add" value="Add Line">
+					<input type="button" id="update" value="Update">
+				</div>
+			</div>
+
+			<div id="main">
+				<canvas id="draw" width="270" height="860"></canvas>
+			</div>
+		</div>
+
+		<div id="right">
+			<div id="profileCurve">
+				<canvas id="profile" width="400" height="400"></canvas>
+				<canvas id="curve" width="400" height="400"></canvas>
+			</div>
+
+			<div id="tessellation">
+				<div id="top">
+					<p>Strip repeats:</p>
+					<input type="number" id="repeats" placeholder="Repeats" value = "1" style="width: 50px">
+					<input type="button" id="makeTessellation" value="Make Tessellation">
+					<a id="download" download="tessellation.svg"><input type="button" value="Download Tessellation"></a>
+					<a href="https://origamisimulator.org/" target="_blank"><input type="button" value="Open Simulation"></a>
+				</div>
+				<svg id="svg" width="0" height="400" xmlns="http://www.w3.org/2000/svg"></svg>		
+			</div>
+		</div>
 	</div>
-	
-	<canvas id="profile" width="400" height="400"></canvas>
-	
-	<input type="number" id="repeats" placeholder="Repeats" value = "1" style="width: 50px">
-	<input type="button" id="makeTessellation" value="Make Tessellation">
-	
-	<svg id="svg" width="800" height="800" xmlns="http://www.w3.org/2000/svg"></svg>
-	
-	<a id="download" download="tessellation.svg"><input type="button" value="Download Tessellation"></a>
-	
-	<style>
-		
-	</style>
-	
-	
-	<script type="module" src="scripts\script.js"></script>
 </body>
 
 </html>

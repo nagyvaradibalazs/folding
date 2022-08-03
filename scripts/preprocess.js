@@ -71,8 +71,8 @@ const createSegments = (data, stop = 0) => {
 			nextPoint2 = [lines[i][2], lines[i][3]];
 		}
 		
-		segmentLeft = [prevPoint1[0], prevPoint1[1], nextPoint1[0], nextPoint1[1]];
-		segmentRight = [prevPoint2[0], prevPoint2[1], nextPoint2[0], nextPoint2[1]];
+		segmentLeft = [prevPoint1[0], prevPoint1[1], nextPoint1[0], nextPoint1[1], "#47515b"];
+		segmentRight = [prevPoint2[0], prevPoint2[1], nextPoint2[0], nextPoint2[1], "#47515b"];
 		
 		prevPoint1 = nextPoint1;
 		prevPoint2 = nextPoint2;
@@ -105,4 +105,4 @@ const createSegments = (data, stop = 0) => {
 	return [segments, [minX, minY, maxX, maxY]];
 };
 
-export { /*updateLines,*/ sortUpdatedLines, createSegments };
+export { sortUpdatedLines, createSegments };

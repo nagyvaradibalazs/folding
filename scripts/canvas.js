@@ -17,7 +17,7 @@ const renderCanvas = (canvas, data, segments) => {
 	var rect = data[0];
 	var lines = data[1];
 	
-	//scaling
+	//scaling 
 	var multiplier = rect[4];
 
 	//translate
@@ -40,20 +40,95 @@ const renderCanvas = (canvas, data, segments) => {
 	}
 };
 
+//function to display the relevant angle on the canvas
+const displayAngle = async (canvas, data, segments, angle, pos) => {
+	var ctx = canvas.getContext("2d");
+
+	var rect = data[0];
+	var translate = [(canvas.width - rect[2]) / 2, canvas.height * 0.025];
+
+	ctx.font="100 15px Garamond";
+	ctx.fillStyle = "#000000";
+	
+	if(angle != -1)
+		ctx.fillText(`${angle}°/${180 - angle}°`, pos[0] + translate[0], pos[1] + translate[1]);
+
+	await new Promise(resolve => setTimeout(resolve, 2000));
+
+	renderCanvas(canvas, data, segments);
+};
+
+//function to render the profile curve
+const renderCurve = (canvas, lines) => {
+	var ctx = canvas.getContext("2d");
+	ctx.clearRect(0,0, canvas.width, canvas.height);
+
+	var ratio = 0.8
+
+	var end1 = [lines[0][0], lines[0][1]];
+	var end2 = [lines[lines.length - 1][2], lines[lines.length - 1][3]];
+
+	/*var end1 = [...lines[0]];
+	var end2 = [...lines[lines.length - 1]];*/	
+
+	if(lines.length >= 2) {
+		for(var i = 0; i < 5; i++) {
+			var tempLines = [];
+			for(var j = 1; j < lines.length; j++) {
+				// line 1
+				var diffX = lines[j - 1][2] - lines[j - 1][0];
+				var diffY = lines[j - 1][3] - lines[j - 1][1];
+				var line1 = [lines[j - 1][0] + diffX * (1 - ratio), lines[j - 1][1] + diffY * (1 - ratio), lines[j - 1][0] + diffX * ratio, lines[j - 1][1] + diffY * ratio];
+
+				//line 2
+				diffX = lines[j][2] - lines[j][0];
+				diffY = lines[j][3] - lines[j][1];
+				var line2 = [lines[j][2] - diffX * ratio, lines[j][3] - diffY * ratio, lines[j][2] - diffX * (1 - ratio), lines[j][3] - diffY * (1 - ratio)];
+
+				//connecting
+				var connecting = [line1[2], line1[3], line2[0], line2[1]];
+
+				//adding
+				tempLines.push(line1);
+				tempLines.push(connecting);
+				tempLines.push(line2);
+			}
+
+			//console.log(tempLines);
+
+			lines.length = 0;
+
+			//console.log(lines);
+
+			for(var j = 0; j < tempLines.length; j++) {
+				lines.push(tempLines[j]);
+			}
+		}
+	}
+
+	lines.push([...end1, lines[0][0], lines[0][1]]);
+	lines.push([...end2, lines[lines.length - 2][2], lines[lines.length - 2][3]]);
+
+	for(var i = 0; i < lines.length; i++) {
+		drawLineToCanvas(ctx, ...lines[i], "#ff0000", 0, 0, 5, 1);
+	}
+};
+
 //function to generate the folded profile
-const renderProfile = (canvas, data) => {
+const renderProfile = (canvas, canvas2, data) => {
 	var ctx = canvas.getContext("2d");
 	var segments = data[0];
 
-	var multiplier = 400 / (860 * 0.95);
+	var multiplier = canvas.height * 0.98 / (document.getElementById("draw").height * 0.95);
 
 	var diffX = (data[1][2] - data[1][0]) * multiplier;
 	var diffY = (data[1][3] - data[1][1]) * multiplier;
-	var translate = [-data[1][0] * multiplier + (canvas.width - diffX) / 2, -data[1][1] * multiplier + (canvas.height - diffY) / 2];
 
-	//console.log([diffX, diffY, translate[0], translate[1]]);
+	multiplier *= canvas.height / Math.max(diffX, diffY) * 0.98;
 
-	//console.log(data[1]);
+	var translate = [-data[1][0] * multiplier + (canvas.height - (data[1][2] - data[1][0]) * multiplier) / 2, -data[1][1] * multiplier + (canvas.height - (data[1][3] - data[1][1]) * multiplier) / 2];
+
+	var lines = [];
 
 	ctx.clearRect(0,0, canvas.width, canvas.height);
 	drawLineToCanvas(ctx, segments[0][0][0], segments[0][0][1], segments[0][1][0], segments[0][1][1], "#000000", translate[0], translate[1], 1, multiplier);
@@ -71,7 +146,15 @@ const renderProfile = (canvas, data) => {
 			(segments[i][0][3] + segments[i][1][3]) / 2, 
 			"#ff0000", translate[0], translate[1], 3, multiplier
 		);
+
+		lines.push([
+			(segments[i][0][0] + segments[i][1][0]) / 2 * multiplier + translate[0],
+			(segments[i][0][1] + segments[i][1][1]) / 2 * multiplier + translate[1],
+			(segments[i][0][2] + segments[i][1][2]) / 2 * multiplier + translate[0],
+			(segments[i][0][3] + segments[i][1][3]) / 2 * multiplier + translate[1],
+		]);
 	}
+	renderCurve(canvas2, lines);
 };
 
-export { renderCanvas, /*drawCircle,*/ renderProfile };
+export { renderCanvas, displayAngle, renderProfile };

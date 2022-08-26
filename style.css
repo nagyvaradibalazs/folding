@@ -14,11 +14,11 @@ body {
 }
 
 #draw, #profile {
-	background-color: white;
+	background-color: rgb(226, 226, 226);
 }
 
 #curve {
-	background-color: grey;
+	background-color: rgb(226, 226, 226);
 }
 
 #container {
@@ -73,9 +73,13 @@ body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	flex-direction: column;
+	column-gap: 20px;
+
+	background-color: rgb(226, 226, 226);
 }
 
-#top {
+#top, #coloring {
 	display: flex;
 	align-items: center;
 }
@@ -89,6 +93,7 @@ body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	background-color: rgb(226, 226, 226);
 }
 
 input {
@@ -103,4 +108,14 @@ input {
 	border-radius: 10px;
 	padding: 5px;
 	background-color: rgb(226, 226, 226);
+}
+
+.del {
+	width: 25px;
+	font-size: 20px;
+}
+
+.lineElement {
+	margin-bottom: 10px;
+	display: flex;
 }

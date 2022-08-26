@@ -5,8 +5,6 @@
 	<link rel="stylesheet" href="style.css">
 </head>
 
-<script type="module" src="scripts\script.js"></script>
-
 <body>
 	<div id="container">
 		<div id="left">
@@ -37,7 +35,12 @@
 			</div>
 
 			<div id="main">
-				<canvas id="draw" width="270" height="860"></canvas>
+				<canvas id="draw" width="270" height="820"></canvas>
+				<div id="coloring">
+					<p>Coloring: </p>
+					<input type="button" id="miura" value="Miura">
+					<input type="button" id="yoshimura" value="Yoshimura">
+				</div>
 			</div>
 		</div>
 
@@ -49,8 +52,12 @@
 
 			<div id="tessellation">
 				<div id="top">
-					<p>Strip repeats:</p>
-					<input type="number" id="repeats" placeholder="Repeats" value = "1" style="width: 50px">
+					<p>Strip repeats: </p>
+					<input type="number" id="repeats" placeholder="Repeats" value="1" style="width: 45px">
+					<p>Mirror:</p>
+					<input type="checkbox" id="mirror" checked="true" style="width: 50px">
+					<p>Offset: </p>
+					<input type="number" id="offset" placeholder="Offset" value = "0" style="width: 50px">
 					<input type="button" id="makeTessellation" value="Make Tessellation">
 					<a id="download" download="tessellation.svg"><input type="button" value="Download Tessellation"></a>
 					<a href="https://origamisimulator.org/" target="_blank"><input type="button" value="Open Simulation"></a>
@@ -60,5 +67,7 @@
 		</div>
 	</div>
 </body>
+
+<script type="module" src="scripts\script.js"></script>
 
 </html>

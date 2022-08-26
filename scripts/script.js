@@ -15,7 +15,7 @@ const removeLine = (button) => {
 	//generateProfile(document.getElementById("profile"), itemsOnCanvas);
 	var segments = Preprocess.createSegments(tempData);
 	var segmentsForCanvas = Preprocess.createSegments(tempData, 1);
-	Canvas.renderProfile(profile, segments);
+	Canvas.renderProfile(profile, curve, segments);
 	Canvas.renderCanvas(mainCanvas, tempData, segmentsForCanvas);
 
 	Data.updateSegments(segmentsForCanvas);
@@ -30,6 +30,12 @@ const profile = document.getElementById("profile");
 const makeTessellation = document.getElementById("makeTessellation");
 const svgDocument = document.getElementById("svg");
 const download = document.getElementById("download");
+const curve = document.getElementById("curve");
+const repeatsInput = document.getElementById("repeats");
+const mirrorInput = document.getElementById("mirror");
+const offsetInput = document.getElementById("offset");
+const miura = document.getElementById("miura");
+const yoshimura = document.getElementById("yoshimura");
 
 sbmt.addEventListener("click", e => {
 	Data.updateData(Handle.onSubmit(mainCanvas));
@@ -44,7 +50,7 @@ sbmt.addEventListener("click", e => {
 	var segmentsForCanvas = Preprocess.createSegments(tempData, 1);
 	Data.updateSegments(segmentsForCanvas);
 
-	Canvas.renderProfile(profile, segments);
+	Canvas.renderProfile(profile, curve, segments);
 	Canvas.renderCanvas(mainCanvas, tempData, segmentsForCanvas);
 });
 
@@ -95,7 +101,7 @@ update.addEventListener("click", e => {
 	//generateProfile(document.getElementById("profile"), itemsOnCanvas);
 	var segments = Preprocess.createSegments(tempData);
 	var segmentsForCanvas = Preprocess.createSegments(tempData, 1);
-	Canvas.renderProfile(profile, segments);
+	Canvas.renderProfile(profile, curve, segments);
 	Canvas.renderCanvas(mainCanvas, tempData, segmentsForCanvas);
 	//console.log(tempData);
 	Data.updateSegments(segmentsForCanvas);
@@ -105,25 +111,25 @@ update.addEventListener("click", e => {
 
 makeTessellation.addEventListener("click", e => {
 	var tempData = Data.getData();
-	var repeats = parseInt(document.getElementById("repeats").value);
+	var repeats = parseInt(repeatsInput.value);
 
 	var height = tempData[0][3] / tempData[0][4];
 	var width = tempData[0][2] / tempData[0][4] * repeats;
 
 	var ratio = 400 / height;
 
-	svgDocument.style.height = 400 ;
-	svgDocument.style.width = width * ratio ;
+	var multiplier = 72 / 25.4;
 
-	
+	svgDocument.style.height = 400;
+	svgDocument.style.width = width * ratio;	
 
-	svgDocument.setAttribute("viewBox", `0 0 ${width + 20} ${height + 20}`);
+	svgDocument.setAttribute("viewBox", `0 0 ${width * multiplier + 20} ${height * multiplier + 20}`);
 
 	var segments = Data.getSegments();
-	Handle.makeTessellation(svgDocument, tempData, segments, repeats);
+	Handle.makeTessellation(svgDocument, tempData, segments, repeats, mirrorInput.checked, offsetInput.value * 1.0);
 
 	//offering download
-	download.setAttribute("href", `data:image/svg+xml;utf8,<svg width="${width + 20}" height="${height + 20}" xmlns="http://www.w3.org/2000/svg">${svg.innerHTML}</svg>`);
+	download.setAttribute("href", `data:image/svg+xml;utf8,<svg width="${width * multiplier + 20}" height="${height * multiplier + 20}" xmlns="http://www.w3.org/2000/svg">${svg.innerHTML}</svg>`);
 });
 
 mainCanvas.addEventListener("click", e => {
@@ -134,7 +140,11 @@ mainCanvas.addEventListener("click", e => {
 
 	//console.log(result);
 
-	if(result == undefined) return 0;
+	if(result[0] == undefined) {
+		var angle = Handle.getAngle(result[1], tempData);
+		Canvas.displayAngle(mainCanvas, tempData, oldSegments, angle, result[1]);
+		return 0;
+	};
 
 	if(result[0] == 0) {
 		//console.log("lines");
@@ -144,6 +154,30 @@ mainCanvas.addEventListener("click", e => {
 		Data.updateSegments(result[1]);
 	}
 
+	var newData = Data.getData();
+	var newSegmentsForCanvas = Data.getSegments();
+	Canvas.renderCanvas(mainCanvas, newData, newSegmentsForCanvas);
+});
+
+miura.addEventListener("click", e => {
+	var tempData = Data.getData();
+	var oldSegments = Data.getSegments();
+	var result = Handle.changeColorToMiura(tempData, oldSegments);
+
+	Data.updateData(result[0]);
+	Data.updateSegments(result[1]);
+	var newData = Data.getData();
+	var newSegmentsForCanvas = Data.getSegments();
+	Canvas.renderCanvas(mainCanvas, newData, newSegmentsForCanvas);
+});
+
+yoshimura.addEventListener("click", e => {
+	var tempData = Data.getData();
+	var oldSegments = Data.getSegments();
+	var result = Handle.changeColorToYoshimura(tempData, oldSegments);
+
+	Data.updateData(result[0]);
+	Data.updateSegments(result[1]);
 	var newData = Data.getData();
 	var newSegmentsForCanvas = Data.getSegments();
 	Canvas.renderCanvas(mainCanvas, newData, newSegmentsForCanvas);

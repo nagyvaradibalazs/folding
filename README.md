@@ -1,5 +1,7 @@
 # Fold-project - Interactive web-app
 
+The app is available [here](https://nagyvaradibalazs.github.io/folding/).
+
 ### Credit
 
 This project was done by Balazs Nagyvaradi as part of his summer (2022) research internship at Aalto University. He is not, however, I web-developer, thus takes no responsibility for the quality of the code and architecture. The development was influenced by Miia Palmu and Markus Holste and supervised by Kirsi Peltonen. The website is part of the ongoing Fold-project founded by Business Finland. You can read more [here](https://fold-project.com/).

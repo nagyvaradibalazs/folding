@@ -58,7 +58,7 @@ body {
 
 	text-align: justify;
 
-	overflow: auto;
+	overflow: scroll;
 }
 
 #inputs {
@@ -70,7 +70,7 @@ body {
 	background-color: rgb(226, 226, 226);
 	width: 300px;
 
-	overflow: auto;
+	overflow: scroll;
 }
 
 #main {

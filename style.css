@@ -59,6 +59,8 @@ body {
 	text-align: justify;
 
 	overflow: auto;
+	
+	padding-bottom: 0px;
 }
 
 #inputs {

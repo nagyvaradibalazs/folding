@@ -9,15 +9,32 @@ const removeLine = (button) => {
 	Data.updateData([oldData[0], oldData[1]], button.id - 1);
 	var tempData = Data.getData();
 
-	//Canvas.renderCanvas(mainCanvas, tempData);
 	Handle.generateLineUpdater("lines", ["add", "update"], Data.getData(), removeLine);
 
-	//generateProfile(document.getElementById("profile"), itemsOnCanvas);
 	var segments = Preprocess.createSegments(tempData);
 	var segmentsForCanvas = Preprocess.createSegments(tempData, 1);
 	Canvas.renderProfile(profile, curve, segments);
 	Canvas.renderCanvas(mainCanvas, tempData, segmentsForCanvas);
 
+	Data.updateSegments(segmentsForCanvas);
+};
+
+//function to update lines
+const updateLines = () => {
+	var oldData = Data.getData();
+
+	var newLines = Handle.onUpdate(oldData);
+	var newData = [oldData[0], Preprocess.sortUpdatedLines(newLines)];
+	Data.updateData(newData);
+
+	var tempData = Data.getData();
+	
+	Handle.generateLineUpdater("lines", ["add", "update"], tempData, removeLine);
+	var segments = Preprocess.createSegments(tempData);
+	var segmentsForCanvas = Preprocess.createSegments(tempData, 1);
+
+	Canvas.renderProfile(profile, curve, segments);
+	Canvas.renderCanvas(mainCanvas, tempData, segmentsForCanvas);
 	Data.updateSegments(segmentsForCanvas);
 };
 
@@ -41,11 +58,8 @@ sbmt.addEventListener("click", e => {
 	Data.updateData(Handle.onSubmit(mainCanvas));
 
 	var tempData = Data.getData();
-	//console.log(tempData);
-	//Canvas.renderCanvas(mainCanvas, tempData);
 	Handle.generateLineUpdater("lines", ["add", "update"], tempData, removeLine);
 
-	//generateProfile(document.getElementById("profile"), itemsOnCanvas);
 	var segments = Preprocess.createSegments(tempData);
 	var segmentsForCanvas = Preprocess.createSegments(tempData, 1);
 	Data.updateSegments(segmentsForCanvas);
@@ -54,31 +68,13 @@ sbmt.addEventListener("click", e => {
 	Canvas.renderCanvas(mainCanvas, tempData, segmentsForCanvas);
 });
 
-/*mainCanvas.addEventListener("click", e => {
-	if(Data.getData()[0] == undefined) {alert("You have to define the strip first!");}
-	else {
-		var clicks = Handle.onLineDraw(e, mainCanvas);
-		if(clicks.length == 2) {
-			Canvas.drawCircle(mainCanvas, clicks[0], clicks[1]);
-		} else {
-			var oldData = Data.getData();			
-			Data.updateData(Preprocess.updateLines(oldData, clicks));
-
-			var tempData = Data.getData();
-			Canvas.renderCanvas(mainCanvas, tempData);
-			Handle.generateLineUpdater("lines", "update", tempData[1], removeLine);
-
-			//generateProfile(document.getElementById("profile"), itemsOnCanvas);
-			var segments = Preprocess.createSegments(tempData);
-			Canvas.renderProfile(profile, segments);
-		}
-	}
-}, false);*/
-
 addLine.addEventListener("click", e => {
 	if(Data.getData()[0] == undefined) {alert("You have to define the strip first!");}
 	else {
+		updateLines();
+
 		var oldData = Data.getData();
+
 		var width = oldData[0][2];
 		oldData[1].push([0, oldData[0][3], width, oldData[0][3], "#47515b"]);
 
@@ -89,31 +85,14 @@ addLine.addEventListener("click", e => {
 }, false);
 
 update.addEventListener("click", e => {
-	var oldData = Data.getData();
-	var newLines = Handle.onUpdate(oldData);
-	var newData = [oldData[0], Preprocess.sortUpdatedLines(newLines)];
-	Data.updateData(newData);
-
-	var tempData = Data.getData();
-	
-	Handle.generateLineUpdater("lines", ["add", "update"], tempData, removeLine);
-	//console.log(tempData);
-	//generateProfile(document.getElementById("profile"), itemsOnCanvas);
-	var segments = Preprocess.createSegments(tempData);
-	var segmentsForCanvas = Preprocess.createSegments(tempData, 1);
-	Canvas.renderProfile(profile, curve, segments);
-	Canvas.renderCanvas(mainCanvas, tempData, segmentsForCanvas);
-	//console.log(tempData);
-	Data.updateSegments(segmentsForCanvas);
-	//console.log(tempData);
-	//console.log(segmentsForCanvas);
+	updateLines();
 });
 
 makeTessellation.addEventListener("click", e => {
 	var tempData = Data.getData();
 	var repeats = parseInt(repeatsInput.value);
 
-	var height = tempData[0][3] / tempData[0][4];
+	var height = tempData[0][3] / tempData[0][4] + Math.abs(offsetInput.value) * repeats;
 	var width = tempData[0][2] / tempData[0][4] * repeats;
 
 	var ratio = 400 / height;
@@ -135,10 +114,8 @@ makeTessellation.addEventListener("click", e => {
 mainCanvas.addEventListener("click", e => {
 	var tempData = Data.getData();
 	var oldSegments = Data.getSegments();
-	//console.log(oldSegments);
-	var result = Handle.changeColor(e, mainCanvas, tempData, oldSegments);
 
-	//console.log(result);
+	var result = Handle.changeColor(e, mainCanvas, tempData, oldSegments);
 
 	if(result[0] == undefined) {
 		var angle = Handle.getAngle(result[1], tempData);
@@ -147,10 +124,8 @@ mainCanvas.addEventListener("click", e => {
 	};
 
 	if(result[0] == 0) {
-		//console.log("lines");
 		Data.updateData(result[1]);
 	} else {
-		//console.log("segments");
 		Data.updateSegments(result[1]);
 	}
 

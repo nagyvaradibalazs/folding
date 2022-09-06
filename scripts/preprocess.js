@@ -22,25 +22,6 @@ const mirrorPoint = (mirror, x, y) => {
 	return [x - 2 * diffToIntersectX, y - 2 * diffToIntersectY];
 };
 
-//function to generate new lines and put them in order
-/*const updateLines = (oldData, points) => {
-	var rect = oldData[0];
-	var lines = oldData[1];
-
-	var m = (points[3] - points[1]) / (points[2] - points[0]);
-	var b = points[3] - m * points[2];
-
-	var x1 = Math.round(rect[0]  * 100) / 100;
-	var y1 = Math.round((m * x1 + b) * 100) / 100;
-	var x2 = Math.round((x1 + rect[2]) * 100) / 100;
-	var y2 = Math.round((m * x2 + b) * 100) / 100;
-	
-	lines.push([x1, y1, x2, y2]);
-	lines.sort(mySort);
-
-	return [rect, lines];
-};*/
-
 //function to sort updated lines
 const sortUpdatedLines = (data) => {
 	var result = data;
@@ -73,11 +54,24 @@ const createSegments = (data, stop = 0) => {
 		
 		segmentLeft = [prevPoint1[0], prevPoint1[1], nextPoint1[0], nextPoint1[1], "#47515b"];
 		segmentRight = [prevPoint2[0], prevPoint2[1], nextPoint2[0], nextPoint2[1], "#47515b"];
-		
+
 		prevPoint1 = nextPoint1;
 		prevPoint2 = nextPoint2;
+
+		if(segmentLeft[3] - segmentLeft[1] < 0) {
+			prevPoint1[1] = segmentLeft[1];
+		}
+
+		if(segmentRight[3] - segmentRight[1] < 0) {
+			prevPoint2[1] = segmentRight[1];
+		}
 		
-		if(!(segmentLeft[0] == 0 && segmentLeft[1] == 0 && segmentLeft[2] == 0 && segmentLeft[3] == 0 && segmentRight[0] == rect[2] && segmentRight[1] == 0 && segmentRight[2] == rect[2] && segmentRight[3] == 0)) {
+		if(!((segmentLeft[0] == 0 && segmentLeft[1] == 0 && segmentLeft[2] == 0 && segmentLeft[3] == 0) || 
+			(segmentRight[0] == rect[2] && segmentRight[1] == rect[3] && segmentRight[2] == rect[2] && segmentRight[3] == rect[3]) ||
+			(segmentLeft[0] == NaN && segmentLeft[1] == NaN && segmentLeft[2] == NaN && segmentLeft[3] == NaN) || 
+			(segmentRight[0] == NaN && segmentRight[1] == NaN && segmentRight[2] == NaN && segmentRight[3] == NaN) ||
+			(segmentLeft[3] - segmentLeft[1] < 0) || (segmentRight[3] - segmentRight[1] < 0))) {
+
 			segments.push([segmentLeft, segmentRight]);
 		}
 	}

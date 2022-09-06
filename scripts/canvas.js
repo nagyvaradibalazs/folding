@@ -35,7 +35,6 @@ const renderCanvas = (canvas, data, segments) => {
 	//lines
 	for(var i = 0; i < lines.length; i++) {
 		var line = lines[i];
-		//console.log(line);
 		drawLineToCanvas(ctx, ...line, translate[0], translate[1], 3);
 	}
 };
@@ -68,9 +67,6 @@ const renderCurve = (canvas, lines) => {
 	var end1 = [lines[0][0], lines[0][1]];
 	var end2 = [lines[lines.length - 1][2], lines[lines.length - 1][3]];
 
-	/*var end1 = [...lines[0]];
-	var end2 = [...lines[lines.length - 1]];*/	
-
 	if(lines.length >= 2) {
 		for(var i = 0; i < 5; i++) {
 			var tempLines = [];
@@ -94,11 +90,7 @@ const renderCurve = (canvas, lines) => {
 				tempLines.push(line2);
 			}
 
-			//console.log(tempLines);
-
 			lines.length = 0;
-
-			//console.log(lines);
 
 			for(var j = 0; j < tempLines.length; j++) {
 				lines.push(tempLines[j]);

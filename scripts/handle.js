@@ -1,9 +1,3 @@
-//internal variables
-//var clicks = 0
-//var lastClick = [];
-
-//import { sortUpdatedLines } from "./preprocess.js";
-
 //function to handle click of submit button
 const onSubmit = (canvas) => {
 	var height = document.getElementById("height").value * 1.0;
@@ -48,47 +42,13 @@ const getAngle = (pos, data) => {
 
 	for(var i = 0; i < data[1].length; i++) lines.push(data[1][i]);
 
-	//var lines = data[1];
-
-	//console.log(lines);
-
 	var x = pos[0];
 	var y = pos[1];
 
 	var limit = 25;
 
-	/*console.log(x, y);
-	console.log(rect);
-	console.log(lines);
-	console.log(0 < x && x < rect[2]);*/
-	/*console.log(lines);
-	console.log(y);*/
-
-	/*var side = 0;
-	if(x >= rect[2] / 2) side = 2;*/
-
 	//only one or no line
 	if(!(0 < x && x < rect[2] && 0 < y && y < rect[3])) return -1;
-	/*if(lines.length == 1) {
-		var value = 0;
-		if(lines[0][side + 1] > y && Math.abs(lines[0][side + 1] - y) < limit) {
-			value = Math.atan((lines[0][2] - lines[0][0]) / (lines[0][3] - lines[0][1])) * 180 / Math.PI;
-			value *= -100;
-			value = Math.floor(value);
-			value /= 100;
-			if(value < 0) value = 180 + value;
-
-			return Math.abs(side * 90 - value);
-		}
-
-		if(lines[0][side + 1] < y && Math.abs(lines[0][side + 1] - y) < limit) {
-			return 3;
-		}
-
-		return -1;
-	}*/
-
-	//console.log(getDistance(0, 0, [0, 3, 1.5, 2]));
 
 	//finding two lines
 	var min1 = Infinity;
@@ -111,34 +71,15 @@ const getAngle = (pos, data) => {
 	}
 
 	//if the lines meet / or not
-	//console.log(min1, min2);
 	if(min1 < limit && min2 < limit) {
 		var m1 = (lines[place1][1] - lines[place1][3]) / (Math.max(lines[place1][2] - lines[place1][0], 0.0000000001));
 		var m2 = (lines[place2][1] - lines[place2][3]) / (Math.max(lines[place2][2] - lines[place2][0], 0.0000000001));
-
-		//console.log(m1, m2);
 
 		var value = Math.atan((m1 - m2) / (1 + m1 * m2)) * 180 / Math.PI;
 		value *= 100;
 		value = Math.round(value);
 		value /= 100;
 		value = Math.abs(value);
-
-		/*var x0 = (x <= rect[2] / 2) ? 0 : rect[2];
-		var intersectY = (x0 == 0) ? 1 : 3;
-		var y0 = (Math.abs(m2) > 2048) ? lines[place1][intersectY] : lines[place2][intersectY];
-
-		console.log(x0, y0);*/
-
-
-
-		/*var r = 50;
-		var x1 = ;
-		var y1 = ;
-		var x2 =;
-		var y2 = ;
-		var hyp = Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
-		if(hyp > 50 * Math.sqrt(2)) return 180 - value;*/
 
 		return value;
 	}
@@ -157,26 +98,12 @@ const changeColor = (e, canvas, data, segments) => {
 
 	x -= translate[0];
 	y -= translate[1];
-	//console.log(x);
-	//console.log(y);
-
-    /*if(clicks != 1) {
-        clicks++;
-        lastClick = [x, y];
-        return [x, y];
-    } else {
-        clicks = 0;
-        var result = [lastClick[0], lastClick[1], x, y];
-        lastClick = [x, y];
-        return result;
-    }*/
 
 	//lines
 	if(0 <= x && x <= rect[2]) {
-		//console.log("yeah");
 		for(var i = 0; i < lines.length; i++) {
 			var lineY = lines[i][1] + (x - lines[i][0]) / (lines[i][2] - lines[i][0]) * (lines[i][3] - lines[i][1]);
-			//console.log(lineY);
+			
 			if(lineY - 10 <= y && y <= lineY + 5) {
 				if(lines[i][4] == "#ff0000") lines[i][4] = "#0000ff";
 				else lines[i][4] = "#ff0000";
@@ -192,11 +119,7 @@ const changeColor = (e, canvas, data, segments) => {
 	else if(rect[2] - 3 <= x && x <= rect[2] + 3) xPlace = 1;
 	else return [undefined, [x, y]];
 
-	//console.log(xPlace);
-	//console.log(segments);
-
 	for(var i = 0; i < segments.length; i++) {
-		//console.log(xPlace);
 		if(segments[i][xPlace][1] <= y && y <= segments[i][xPlace][3]) {
 			if(segments[i][xPlace][4] == "#ff0000") segments[i][xPlace][4] = "#0000ff";
 			else segments[i][xPlace][4] = "#ff0000";
@@ -208,12 +131,10 @@ const changeColor = (e, canvas, data, segments) => {
 	return [undefined, [x, y]];
 };
 
+//function to color based on miura pattern
 const changeColorToMiura = (data, segments) => {
 	var colors = ["#ff0000", "#0000ff"];
 	var index = 0;
-
-	/*console.log(data);
-	console.log(segments);*/
 
 	for(var i = 0; i < data[1].length; i++) {
 		data[1][i][4] = colors[index];
@@ -231,6 +152,7 @@ const changeColorToMiura = (data, segments) => {
 	return [data, segments];
 };
 
+//function to color based on yoshimura pattern
 const changeColorToYoshimura = (data, segments) => {
 	var colors = ["#ff0000", "#0000ff"];
 	
@@ -255,12 +177,10 @@ const generateLineUpdater = (idOfMain, idOfTargets, fullData, remove) => {
 	var target1 = document.getElementById(idOfTargets[0]);
 	var target2 = document.getElementById(idOfTargets[1]);
 	
-	//data parameter renaming - it is kinda retarded
+	//data parameter renaming - it is kinda stupid
 	var data = fullData[1];
 	var multiplier = fullData[0][4];
 	var height = fullData[0][3];
-
-	//console.log(fullData);
 
 	main.innerHTML = "";
 	main.appendChild(target1);
@@ -269,7 +189,7 @@ const generateLineUpdater = (idOfMain, idOfTargets, fullData, remove) => {
 	for(var i = 0; i < data.length; i++) {
 		var newElement = document.createElement("div");
 		newElement.setAttribute("id", `line${i + 1}`);
-		newElement.innerHTML = `Line ${i + 1}: <div class="lineElement"><input type="number" id="left${i + 1}" value="${height / multiplier - data[i][1] / multiplier }" step=".1" style="width: 80px"><input type="number" id="right${i + 1}" value="${height / multiplier - data[i][3] / multiplier}" step=".1" style="width: 80px"><input type="button" class="del" id="${i + 1}" value="X"></div>`;
+		newElement.innerHTML = `Line ${i + 1}: <div class="lineElement"><input type="number" id="left${i + 1}" value="${Math.round((height / multiplier - data[i][1] / multiplier) * 10) / 10}" step=".1" style="width: 80px"><input type="number" id="right${i + 1}" value="${Math.round((height / multiplier - data[i][3] / multiplier) * 10) / 10}" step=".1" style="width: 80px"><input type="button" class="del" id="${i + 1}" value="X"></div>`;
 
 		main.insertBefore(newElement, target1);
 
@@ -294,7 +214,6 @@ const onUpdate = (data) => {
 //function to convert hex to rgb
 const convert = (hex) => {
 	hex = hex.slice(1);
-	//console.log(hex);
 	var aRgbHex = hex.match(/.{1,2}/g);
     var aRgb = [
         parseInt(aRgbHex[0], 16),
@@ -311,21 +230,23 @@ const makeTessellation = (svg, data, segments, repeats, mirror, offsetVertical) 
 	
 	svg.innerHTML = "";
 
-	var startingIndex = 0;
-	var offset = 10;
-	var offsetX = offset;
-	var offsetY = offset;
-
 	var multiplier = 1 / data[0][4];
 	multiplier *= 72 / 25.4;
 
 	offsetVertical *= multiplier;
+	offsetVertical *= data[0][4];
+
+	var offset = 10;
+
+	var startingIndex = 0;
+	var offsetX = offset;
+	var offsetY = offset;
+
+	if(offsetVertical < 0) offsetY -= repeats * offsetVertical;
 
 	for(var i = 0; i <= repeats; i++) {
 		for(var j = 0; j < segments.length; j++) {
-			//console.log(offsetX);
 			var colour = convert(segments[j][startingIndex][4]);
-			//console.log(colour);
 			svg.innerHTML += `<line x1="${segments[j][startingIndex][0] * multiplier + offsetX}" y1="${segments[j][startingIndex][1] * multiplier + offsetY}" x2="${segments[j][startingIndex][2] * multiplier + offsetX}" y2="${segments[j][startingIndex][3] * multiplier + offsetY}" style="stroke:rgb(${colour[0]}, ${colour[1]}, ${colour[2]});stroke-width:1" />`;
 		}
 
@@ -342,13 +263,12 @@ const makeTessellation = (svg, data, segments, repeats, mirror, offsetVertical) 
 	offsetX = offset;
 	offsetY = offset;
 
+	if(offsetVertical < 0) offsetY -= repeats * offsetVertical;
+
 	for(var i = 0; i < repeats; i++) {
 		for(var j = 0; j < segments.length - 1; j++) {
-			//console.log(offsetX);
 			var colour = convert(data[1][j][4]);
-			//console.log(colour);
 			svg.innerHTML += `<line x1="${segments[j][0][2] * multiplier + offsetX}" y1="${segments[j][startingIndex][3] * multiplier + offsetY}" x2="${segments[j][1][2] * multiplier + offsetX}" y2="${segments[j][1 - startingIndex][3] * multiplier + offsetY}" style="stroke:rgb(${colour[0]}, ${colour[1]}, ${colour[2]});stroke-width:1" />`;
-			//svg.innerHTML += `<line x1="${segments[j][0][2] + offsetX}" y1="${segments[j][0][3] + offsetY}" x2="${segments[j][1][2] + offsetX}" y2="${segments[j][1][3] + offsetY}" style="stroke:rgb(0,0,0);stroke-width:1" />`;
 		}
 
 		if(mirror) startingIndex = 1 - startingIndex;
@@ -358,8 +278,13 @@ const makeTessellation = (svg, data, segments, repeats, mirror, offsetVertical) 
 		offsetY += offsetVertical;
 	}
 
-	svg.innerHTML += `<line x1="${offset}" y1="${offsetY}" x2="${repeats * data[0][2] * multiplier + offset}" y2="${offsetY}" style="stroke:rgb(0,0,0);stroke-width:1" />`;
-	svg.innerHTML += `<line x1="${offset}" y1="${offsetY + data[0][3] * multiplier}" x2="${repeats * data[0][2] * multiplier + offset}" y2="${offsetY + data[0][3] * multiplier}" style="stroke:rgb(0,0,0);stroke-width:1" />`;
+	offsetX = offset;
+	offsetY = offset;
+
+	if(offsetVertical < 0) offsetY -= repeats * offsetVertical;
+
+	svg.innerHTML += `<line x1="${offsetX}" y1="${offsetY}" x2="${repeats * data[0][2] * multiplier + offsetX}" y2="${offsetY + repeats * offsetVertical}" style="stroke:rgb(0,0,0);stroke-width:1" />`;
+	svg.innerHTML += `<line x1="${offsetX}" y1="${offsetY + data[0][3] * multiplier}" x2="${repeats * data[0][2] * multiplier + offsetX}" y2="${offsetY + data[0][3] * multiplier + repeats * offsetVertical}" style="stroke:rgb(0,0,0);stroke-width:1" />`;
 };
 
 export { onSubmit, generateLineUpdater, getAngle, onUpdate, makeTessellation, changeColor, changeColorToMiura, changeColorToYoshimura };

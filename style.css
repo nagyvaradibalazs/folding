@@ -34,10 +34,12 @@ body {
 }
 
 #left {
+	height: 900px;
 	display: flex;
 }
 
 #right {
+	height: 900px;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -51,6 +53,12 @@ body {
 
 	background-color: rgb(226, 226, 226);
 	width: 300px;
+
+	font-size: 14px;
+
+	text-align: justify;
+
+	overflow: auto;
 }
 
 #inputs {
@@ -61,6 +69,8 @@ body {
 
 	background-color: rgb(226, 226, 226);
 	width: 300px;
+
+	overflow: auto;
 }
 
 #main {
@@ -84,6 +94,10 @@ body {
 	align-items: center;
 }
 
+#top {
+	margin-bottom: 10px;
+}
+
 #profileCurve {
 	border-style: solid;
 	margin: 5px;
@@ -103,6 +117,7 @@ input {
 }
 
 #tessellation {
+	height: 500px;
 	border-style: solid;
 	margin: 5px;
 	border-radius: 10px;
@@ -118,4 +133,36 @@ input {
 .lineElement {
 	margin-bottom: 10px;
 	display: flex;
+}
+
+#footer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	font-size: 16px;
+
+	column-gap: 10px;
+}
+
+::-webkit-scrollbar {
+	width: 6px;
+}
+
+::-webkit-scrollbar-track {
+	background: rgb(226, 226, 226);
+	border-radius: 10px;
+	margin: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+	background: rgb(180, 180, 180);
+	border-radius: 10px;
+	
+	border-right: 2px rgb(226, 226, 226) solid;
+    background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: rgb(120, 120, 120);
 }

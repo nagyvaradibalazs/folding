@@ -3,21 +3,29 @@
 
 <head>
 	<link rel="stylesheet" href="style.css">
+	<link rel="icon" type="image/png" href="img/logo.png" />
 </head>
 
 <body>
 	<div id="container">
 		<div id="left">
 			<div id="instructions">
-				<p>Instructions:</p>
+				<img src="img/logo.png" width="256" height="256" style="margin-left: 10px; margin-top: -14px; margin-bottom: -14px;">
+				<p style="font-size: 20px;">Instructions:</p>
 				<br>
-				<p>This program can be used to define tessellations of simple origami designs and to visualize its characteristics.</p>
+				<p>This program can be used to define the tessellations of simple origami designs and to visualize their characteristics. You will use a single strip as the building block, which can be repeated to make a sort of "accordion".</p>
 				<br>
-				<p>1. You can specify the dimensions of the strip on the left, followed by the alignment of the lines. You can change the colors of each segment by clicking on them, or by using the built-in configurations.</p>
+				<p>1. You can specify the dimensions of the strip on the left, followed by the alignment of the lines on it. You can change the colours of each segment by clicking on them, or by using the built-in configurations.</p>
 				<br>
-				<p>2. The profile of the folded state is displayed on the very right. It is carachterized and approximated by the red curve in the middle.</p>
+				<p>2. By clicking on corners made by lines on the strip, you can see the angle they make. Note that both the acute and their complement obtuse angles are displayed, so you need to interpret them carefully.</p>
 				<br>
-				<p>3. You can create a tessellation from the strip you defined by giving the amount of strip repeats Once ready, you can download the SVG and open it in the simulation.</p>
+				<p>3. The profile of the folded state is displayed in the upper right panel. It is characterized and approximated by the red curve through it. On its right, you can find the smooth approximation of this curve too.</p>
+				<br>
+				<p>4. You can create a tessellation from the strip you defined by giving the number of strip repeats. You have the option to flip the strip in each repeat (to fit nicely), but you can use it without flipping too. By setting an offset (both negative and positive), in every repeat, the strips are placed slightly off on the horizontal axis. Once ready, you can download the SVG and open it in the simulation.</p>
+				<br>
+				<p>+1. In case you find difficulties with screen resolution, and the page does not fit perfectly, you can zoom in/out within your browser. The site supports all major browsers, but some errors might occur using Firefox.</p>
+				<br>
+				<p>For further information, visit the <a href="https://github.com/nagyvaradibalazs/folding" target="_blank">project's repository</a> on GitHub.</p>
 			</div>
 
 			<div id="inputs">
@@ -66,6 +74,14 @@
 			</div>
 		</div>
 	</div>
+
+	<footer>
+		<div id="footer">
+			<img src="img/logo.png" width="32" height="32">
+			<p>This website is part of the <a href="https://fold-project.com/" target="_blank">Fold project</a> funded by <a href="https://www.businessfinland.fi/en/for-finnish-customers/home" target="_blank">Business Finland</a>. Created by Balazs Nagyvaradi as part of his summer research internship at Aalto University.</p>
+		</div>
+	</footer>
+
 </body>
 
 <script type="module" src="scripts\script.js"></script>

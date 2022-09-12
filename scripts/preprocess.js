@@ -70,11 +70,15 @@ const createSegments = (data, stop = 0) => {
 			(segmentRight[0] == rect[2] && segmentRight[1] == rect[3] && segmentRight[2] == rect[2] && segmentRight[3] == rect[3]) ||
 			(segmentLeft[0] == NaN && segmentLeft[1] == NaN && segmentLeft[2] == NaN && segmentLeft[3] == NaN) || 
 			(segmentRight[0] == NaN && segmentRight[1] == NaN && segmentRight[2] == NaN && segmentRight[3] == NaN) ||
-			(segmentLeft[3] - segmentLeft[1] < 0) || (segmentRight[3] - segmentRight[1] < 0))) {
+			(segmentLeft[3] - segmentLeft[1] < 0) || (segmentRight[3] - segmentRight[1] < 0)) ||
+			(segmentLeft[0] == 0 && segmentLeft[1] == 0 && segmentLeft[2] == 0 && segmentLeft[3] == 0) || 
+			(segmentRight[0] == rect[2] && segmentRight[1] == rect[3] && segmentRight[2] == rect[2] && segmentRight[3] == rect[3])) {
 
 			segments.push([segmentLeft, segmentRight]);
 		}
 	}
+
+	//console.log(segments);
 
 	if(stop == 1) return segments;
 
